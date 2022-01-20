@@ -36,7 +36,7 @@ func Run(config Config, args []string) {
 		}
 	}
 
-	signaller := NewSignaller()
+	signaller := NewSignaller(config)
 	signaller.Start(cmd)
 	defer signaller.Shutdown()
 
