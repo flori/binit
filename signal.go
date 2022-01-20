@@ -33,6 +33,9 @@ func (s *Signaller) Start(cmd *exec.Cmd) {
 }
 
 func (s *Signaller) logSignal(name string) bool {
+	if s == nil {
+		return true
+	}
 	for _, s := range s.skipSignalLog {
 		if s == name {
 			return false
