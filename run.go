@@ -12,6 +12,8 @@ import (
 func Run(config Config, args []string) {
 	waiter := NewWaiter()
 
+	runSimpleCommand(config.BEFORE, waiter)
+
 	if len(args) == 0 {
 		waiter.Fatalf("error, need a program to execute")
 	}
@@ -48,6 +50,8 @@ func Run(config Config, args []string) {
 	if err := cmd.Wait(); err != nil {
 		waiter.Fatalf("error while waiting for %s: %v", cmd.Path, err)
 	}
+
+	runSimpleCommand(config.AFTER, waiter)
 
 	waiter.Quit(0)
 }
