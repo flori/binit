@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"syscall"
 
 	"github.com/kballard/go-shellquote"
@@ -12,7 +13,7 @@ import (
 func Run(config Config, args []string) {
 	waiter := NewWaiter()
 
-	runSimpleCommand(config.BEFORE, waiter)
+	runCommandWithEnv(config.BEFORE, waiter, nil)
 
 	if len(args) == 0 {
 		waiter.Fatalf("error, need a program to execute")
@@ -47,11 +48,14 @@ func Run(config Config, args []string) {
 		waiter.Fatalf("error while running %s: %v", cmd.Path, err)
 	}
 
-	if err := cmd.Wait(); err != nil {
+	err = cmd.Wait()
+	exitCode := strconv.Itoa(cmd.ProcessState.ExitCode())
+	env := map[string]string{"BINIT_EXIT_CODE": exitCode}
+	runCommandWithEnv(config.AFTER, waiter, &env)
+
+	if err != nil {
 		waiter.Fatalf("error while waiting for %s: %v", cmd.Path, err)
 	}
-
-	runSimpleCommand(config.AFTER, waiter)
 
 	waiter.Quit(0)
 }

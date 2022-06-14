@@ -1,6 +1,7 @@
 package binit
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -8,7 +9,7 @@ import (
 	"github.com/kballard/go-shellquote"
 )
 
-func runSimpleCommand(command string, waiter *Waiter) {
+func runCommandWithEnv(command string, waiter *Waiter, env *map[string]string) {
 	if command == "" {
 		return
 	}
@@ -17,6 +18,13 @@ func runSimpleCommand(command string, waiter *Waiter) {
 		waiter.Fatalf("error when splitting %s: %v", command, err)
 	}
 	cmd := exec.Command(args[0], args[1:]...)
+
+	if env != nil {
+		cmd.Env = os.Environ()
+		for name, value := range *env {
+			cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", name, value))
+		}
+	}
 
 	log.Printf("Running command { %v } now.", shellquote.Join(cmd.Args...))
 
