@@ -54,7 +54,9 @@ func Run(config Config, args []string) {
 	runCommandWithEnv(config.AFTER, waiter, &env)
 
 	if err != nil {
-		waiter.Fatalf("error while waiting for %s: %v", cmd.Path, err)
+		if exitErr, ok := err.(*exec.ExitError); !ok {
+			waiter.Fatalf("error while waiting for %s with exit code %s: %v", cmd.Path, exitCode, exitErr)
+		}
 	}
 
 	waiter.Quit(0)
