@@ -30,3 +30,6 @@ clean:
 
 clobber: clean
 	@rm -rf $(GOPATH)/*
+
+grype: all
+	@grype --add-cpes-if-none --by-cve .
