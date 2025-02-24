@@ -32,4 +32,4 @@ clobber: clean
 	@rm -rf $(GOPATH)/*
 
 grype: all
-	@grype --add-cpes-if-none --by-cve .
+	@docker run --pull always --rm --volume $(PWD):/work --volume /var/run/docker.sock:/var/run/docker.sock --name Grype anchore/grype:latest --add-cpes-if-none --by-cve /work/binit
