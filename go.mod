@@ -6,7 +6,7 @@ toolchain go1.23.7
 
 require (
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
-	golang.org/x/sys v0.32.0
+	golang.org/x/sys v0.33.0
 )
 
 require github.com/kelseyhightower/envconfig v1.4.0
