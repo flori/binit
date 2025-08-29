@@ -49,15 +49,16 @@ func Run(config Config, args []string) {
 	}
 
 	err = cmd.Wait()
-	exitCode := strconv.Itoa(cmd.ProcessState.ExitCode())
-	env := map[string]string{"BINIT_EXIT_CODE": exitCode}
+	exitCode := cmd.ProcessState.ExitCode()
+	exitCodeString := strconv.Itoa(exitCode)
+	env := map[string]string{"BINIT_EXIT_CODE": exitCodeString}
 	runCommandWithEnv(config.AFTER, waiter, &env)
 
 	if err != nil {
 		if exitErr, ok := err.(*exec.ExitError); !ok {
-			waiter.Fatalf("error while waiting for %s with exit code %s: %v", cmd.Path, exitCode, exitErr)
+			waiter.Fatalf("error while waiting for %s with exit code %s: %v", cmd.Path, exitCodeString, exitErr)
 		}
 	}
 
-	waiter.Quit(0)
+	waiter.Quit(exitCode)
 }
