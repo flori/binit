@@ -25,8 +25,11 @@ coverage:
 coverage-display: coverage
 	@go tool cover -html=coverage.out
 
+tags: clean
+	@gotags -tag-relative=false -silent=true -R=true -f $@ . $(GOPATH)
+
 clean:
-	@rm -f binit coverage.out
+	@rm -f binit coverage.out tags
 
 clobber: clean
 	@rm -rf $(GOPATH)/*
