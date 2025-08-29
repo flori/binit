@@ -3,6 +3,12 @@ GOBIN = $(GOPATH)/bin
 
 .EXPORT_ALL_VARIABLES:
 
+check-%:
+	@if [ "${${*}}" = "" ]; then \
+		echo >&2 "Environment variable $* not set"; \
+		exit 1; \
+	fi
+
 all: binit
 
 binit: cmd/binit/main.go *.go
@@ -18,6 +24,11 @@ fake-package:
 
 test:
 	@go test
+
+release: check-TAG
+	git push origin master
+	git tag "$(TAG)"
+	git push origin "$(TAG)"
 
 coverage:
 	@go test -coverprofile=coverage.out
