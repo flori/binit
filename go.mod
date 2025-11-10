@@ -2,7 +2,7 @@ module github.com/flori/binit
 
 go 1.24.0
 
-toolchain go1.24.7
+toolchain go1.24.9
 
 require (
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
