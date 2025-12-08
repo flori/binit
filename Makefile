@@ -9,6 +9,12 @@ check-%:
 		exit 1; \
 	fi
 
+validate-tag:
+	@if ! echo "${TAG}" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$$'; then \
+		echo >&2 "Error: TAG must be in the format 'v1.2.3'"; \
+		exit 1; \
+	fi # '
+
 all: binit
 
 binit: cmd/binit/main.go *.go
@@ -25,7 +31,7 @@ fake-package:
 test:
 	@go test
 
-release: check-TAG
+release: check-TAG validate-tag
 	git push origin master
 	git tag "$(TAG)"
 	git push origin "$(TAG)"
