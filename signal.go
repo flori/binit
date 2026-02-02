@@ -49,7 +49,7 @@ func (s *Signaller) logSignal(name string) bool {
 	return true
 }
 
-func (s *Signaller) isPreStopSingal(name string) bool {
+func (s *Signaller) isPreStopSignal(name string) bool {
 	if s == nil {
 		return false
 	}
@@ -74,7 +74,7 @@ func (s *Signaller) Forward() {
 		sig := signal.(syscall.Signal)
 		sigName := unix.SignalName(sig)
 
-		preStopping := s.isPreStopSingal(sigName)
+		preStopping := s.isPreStopSignal(sigName)
 		if preStopping {
 			log.Printf(
 				"received PRE_STOP_SIGNAL %s (=%d) for supervised process group of pid %d (%s) now",
