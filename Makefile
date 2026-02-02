@@ -3,6 +3,8 @@ GOBIN = $(GOPATH)/bin
 
 .EXPORT_ALL_VARIABLES:
 
+all: binit
+
 check-%:
 	@if [ "${${*}}" = "" ]; then \
 		echo >&2 "Environment variable $* not set"; \
@@ -14,8 +16,6 @@ validate-tag:
 		echo >&2 "Error: TAG must be in the format 'v1.2.3'"; \
 		exit 1; \
 	fi # '
-
-all: binit
 
 binit: cmd/binit/main.go *.go
 	go build -o $@ $<
