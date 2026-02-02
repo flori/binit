@@ -20,13 +20,8 @@ all: binit
 binit: cmd/binit/main.go *.go
 	go build -o $@ $<
 
-setup: fake-package
+setup:
 	go mod download
-
-fake-package:
-	rm -rf $(GOPATH)/src/github.com/flori/binit
-	mkdir -p $(GOPATH)/src/github.com/flori
-	ln -s $(shell pwd) $(GOPATH)/src/github.com/flori/binit
 
 test:
 	@go test
