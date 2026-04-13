@@ -31,6 +31,10 @@ release: check-TAG validate-tag
 	git tag "$(TAG)"
 	git push origin "$(TAG)"
 
+last-tag:
+	@git fetch --tags
+	@git tag | sort -V | tail -n 1
+
 coverage:
 	@go test -coverprofile=coverage.out
 
