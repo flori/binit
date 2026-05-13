@@ -1,6 +1,6 @@
 module github.com/flori/binit
 
-go 1.25.10
+go 1.25.0
 
 require (
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
