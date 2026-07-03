@@ -1,5 +1,6 @@
 GOPATH := $(shell pwd)/gospace
 GOBIN = $(GOPATH)/bin
+EDITOR ?= vim
 
 .EXPORT_ALL_VARIABLES:
 
@@ -27,9 +28,11 @@ test:
 	@go test
 
 release: check-TAG validate-tag
-	git push origin master
-	git tag "$(TAG)"
+	@changes pending -r "$(TAG)" >"/tmp/release-changes.txt.$$PPID"
+	@"$(EDITOR)" "/tmp/release-changes.txt.$$PPID"
+	git tag "$(TAG)" -a -F "/tmp/release-changes.txt.$$PPID"
 	git push origin "$(TAG)"
+	git push origin master
 
 last-tag:
 	@git fetch --tags
