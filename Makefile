@@ -28,9 +28,9 @@ test:
 	@go test
 
 release: check-TAG validate-tag
-	@changes pending -r "$(TAG)" >"/tmp/release-changes.txt.$$PPID"
-	@"$(EDITOR)" "/tmp/release-changes.txt.$$PPID"
-	git tag "$(TAG)" -a -F "/tmp/release-changes.txt.$$PPID"
+	@changes pending -r "$(TAG)" >"/tmp/release-changes.$$PPID.md"
+	@"$(EDITOR)" "/tmp/release-changes.$$PPID.md"
+	git tag "$(TAG)" -a -F "/tmp/release-changes.$$PPID.md"
 	git push origin "$(TAG)"
 	git push origin master
 
